@@ -1,0 +1,47 @@
+<html>
+
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="face-api.min.js"></script>
+        <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
+        <script type='text/javascript' src='headtrack.js'></script>
+        
+        <style>
+            
+            .margin {
+            margin: 20px;
+            }
+
+            #overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            #facesContainer canvas {
+                margin: 10px;
+            }
+
+
+        </style>
+
+    </head>
+
+    <body>
+        
+        <div style="position: relative" class="margin">
+            <video onloadedmetadata="onPlay(this)"  id="localVideo" autoplay muted playsinline></video>
+            <canvas id="overlay" />
+        </div>
+
+    
+        <script>
+            /*
+            const input = document.getElementById('myImage')
+            let fullFaceDescriptions = await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceDescriptors()
+            faceapi.draw.drawDetections(canvas, fullFaceDescriptions)
+            */
+        </script>
+    </body>
+
+</html>
