@@ -140,23 +140,43 @@ async function onPlay() {
     if(videoEl.paused || videoEl.ended)
       return setTimeout(() => onPlay())
 
-    const result = await faceapi.detectSingleFace(videoEl, new faceapi.TinyFaceDetectorOptions())
+    const detectionsWithExpressions = await faceapi.detectSingleFace(videoEl, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
 
-    if (result) {
+    if (detectionsWithExpressions) {
       const canvas = $('#overlay').get(0)
       const dims = faceapi.matchDimensions(canvas, videoEl, true);
 
-      resized_result = faceapi.resizeResults(result, dims);
-      // faceapi.draw.drawDetections(canvas, resized_result)
+      resized_result = faceapi.resizeResults(detectionsWithExpressions, dims);
+      // faceapi.draw.drawDetections(canvas, resized_result);
+      faceapi.draw.drawFaceExpressions(canvas, resized_result, 0.5);
 
+      sad_face = "/faceapp/avatars/sad.svg"
+      default_face = "/faceapp/avatars/neutral.svg"
+      happy_face = "/faceapp/avatars/smile.svg"
+
+      
+      if (resized_result.expressions.happy > 0.7) {
+        console.log('happy');
+        $("#avatar_img").attr("src", happy_face);
+      }
+      else if (resized_result.expressions.sad > 0.7) {
+        console.log('sad');
+        $("#avatar_img").attr("src", sad_face);
+      }
+      else {
+        console.log('neutral');
+        $("#avatar_img").attr("src", default_face);
+      }
+      
       // console.log(resized_result.box);
+      /*
       x = resized_result.box.x;
       y = resized_result.box.y;
       width = resized_result.box.width;
       height = resized_result.box.height;
       circle_size = Math.max(width, height);
       $('#localVideo').css({"clip-path": 'circle(' + circle_size + 'px at ' + (x + width/2) + 'px ' + (y + height/2) + 'px)'});
-
+      */
     }
 
     setTimeout(() => onPlay())
@@ -166,6 +186,8 @@ async function run() {
     // load the models
     // await faceapi.loadMtcnnModel('/')
     await faceapi.loadTinyFaceDetectorModel('/faceapp/')
+    await faceapi.loadFaceLandmarkModel('/faceapp/')
+    await faceapi.loadFaceExpressionModel('/faceapp/')
     
     // try to access users webcam and stream the images
     // to the video element
@@ -175,6 +197,7 @@ async function run() {
       stream => videoEl.srcObject = stream,
       err => console.error(err)
     )
+
   }
 
 $(document).ready(function() {

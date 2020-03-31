@@ -6,6 +6,10 @@
         <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
         <script type='text/javascript' src='headtrack.js'></script>
         
+
+        <!-- Stuff for the Avatars -->
+        <script type='text/javascript' src='avatar.js'></script>
+
         <style>
             
             .margin {
@@ -35,13 +39,10 @@
         </div>
 
     
-        <script>
-            /*
-            const input = document.getElementById('myImage')
-            let fullFaceDescriptions = await faceapi.detectAllFaces(input).withFaceLandmarks().withFaceDescriptors()
-            faceapi.draw.drawDetections(canvas, fullFaceDescriptions)
-            */
-        </script>
+        <div id="avatar">
+            <img id="avatar_img">
+        </div>
+
     </body>
 
 </html>
